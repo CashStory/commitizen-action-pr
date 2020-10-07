@@ -4,11 +4,7 @@ Add [commitizen][cz] incredibly fast into your project!
 
 ## Features
 
-- Allow prerelease 
-- Super easy to setup
-- Automatically bump version
-- Automatically create changelog
-- Update any file in your repo with the new version
+- Check Pr title
 
 Are you using [conventional commits][cc] and [semver][semver]?
 
@@ -35,12 +31,11 @@ For more information visit [commitizen's configuration page][cz-conf]
 ## Sample Workflow
 
 ```yaml
-name: Bump version
+name: Pull request validation
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+        types: ['opened', 'edited', 'reopened', 'synchronize']
 
 jobs:
   bump_version:
@@ -53,34 +48,15 @@ jobs:
         with:
           fetch-depth: 0
           token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Create bump and changelog
-        uses: commitizen-tools/commitizen-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Validate PR title with commitizen
+        uses: CashStory/commitizen-action-pr@1.0.1
+
+
 ```
 
-## Variables
-
-| Name           | Description                                                                           | Default     |
-| -------------- | ------------------------------------------------------------------------------------- | ----------- |
-| `github_token` | Token for the repo. Can be passed in using `${{ secrets.GITHUB_TOKEN }}` **required** | -           |
-| `dry_run`      | Run without creating commit, output to stdout                                         | false       |
-| `repository`   | Repository name to push. Default or empty value represents current github repository  | current one |
-| `branch`       | Destination branch to push changes                                                    | `master`    |
-| `prerelease`   | Set as prerelease {alpha,beta,rc} choose type of prerelease                           | -           |
-
-<!--           | `changelog`                                                                                                  | Create changelog when bumping the version | true | -->
 
 ## Troubleshooting
 
-### Other actions are not triggered when the tag is pushed
-
-This problem occurs because `secrets.GITHUB_TOKEN` does not trigger other
-actions [by design][by_design].
-
-To solve it you must use a personal access token in the checkout and the commitizen steps.
-
-Follow the instructions in [commitizen's documentation][cz-docs-ga]
 
 ## I'm not using conventional commits, I'm using my own set of rules on commits
 
