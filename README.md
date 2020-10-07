@@ -1,4 +1,4 @@
-# commitizen-action
+# commitizen-action-pr
 
 Add [commitizen][cz] incredibly fast into your project!
 
