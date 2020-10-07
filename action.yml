@@ -1,4 +1,4 @@
-name: 'Validate if PR title with commitizen'
+name: 'Validate PR title with commitizen'
 description: 'Check if the title follow semantic version'
 runs:
   using: 'docker'
